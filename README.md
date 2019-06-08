@@ -1,10 +1,10 @@
 # txt2pdf
 Converts plain text (file or from STDIN) to pdf via pdflatex
 
-## SYNOPSIS
+### SYNOPSIS
 txt2pdf [-h] (filename)
 
-## DESCRIPTION
+### DESCRIPTION
 Reads a text file (if supplied as the first argument) and creates
 a pdf file with the same name but with .pdf as extension in the
 current directory via the program pdflatex (the only requirement
@@ -31,8 +31,8 @@ I have added the following to my i3 config:
 This would create a pdf file from the text I have selected as I hit
 the "Window button" and "p".
 
-## OPTIONS
+### OPTIONS
 `-h` Show this help text
 
-## COPYRIGHT
+### COPYRIGHT
 By Geir Isene (https://isene.org) 2019. No rights reserved.
