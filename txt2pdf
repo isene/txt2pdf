@@ -1,0 +1,88 @@
+#!/usr/bin/env ruby
+# Converts plain text (file or from STDIN) to pdf via pdflatex
+# ...either from a text file (first argument) or from STDIN
+# By Geir Isene (https://isene.org/). No rights reserved.
+
+def help # defines the helptext to be printed when option "-h" is used
+puts <<HELPTEXT
+
+NAME
+  txt2pdf
+
+SYNOPSIS
+  txt2pdf [-h] (filename)
+
+DESCRIPTION
+  Reads a text file (if supplied as the first argument) and creates
+  a pdf file with the same name but with .pdf as extension in the
+  current directory via the program pdflatex (the only requirement
+  besides ruby itself). If "-h" is the first argument, then the program
+  displays the helptext and exits.
+
+  The program can also read the input text from STDIN (STanDard IN) and
+  create the pdf file in the user's home directory. When this method is
+  used, no argument is given to the program and the text is simply piped
+  directly into the program like this:
+
+    $ echo "Hello" | txt2pdf
+
+  This would create a pdf file with only "Hello" and the page number
+  at the bottom of the resulting pdf page.
+
+  With this, you could map a key binding in your window manager to
+  create a pdf file from the text you selected in any program, be it the
+  terminal, your browser or your text editor. In my wm of choice, i3,
+  I have added the following to my i3 config:
+
+    bindsym $mod+p exec xclip -o | txt2pdf
+  
+  This would create a pdf file from the text I have selected as I hit
+  the "Window button" and "p".
+
+OPTIONS
+  -h Show this help text
+
+COPYRIGHT:
+  By Geir Isene (https://isene.org) 2019. No rights reserved.
+
+HELPTEXT
+end
+
+latexstart = <<LATEX #Edit this if you want to change your resulting pdf
+\\documentclass[a4paper,10pt]{article}
+\\addtolength{\\oddsidemargin}{-1in}
+\\addtolength{\\evensidemargin}{-1in}
+\\addtolength{\\textwidth}{2in}
+\\setlength{\\parindent}{0pt}
+LATEX
+
+if ARGV[0] == "-h"
+  help
+  exit
+end
+
+if ARGV[0]
+  unless File.exists?(ARGV[0])
+    puts "No such file"
+    exit
+  end
+  fbase = File.basename(ARGV[0], ".*")
+  fcont = File::read(ARGV[0])
+else
+  fbase = "selected"
+  fcont = ARGF.read
+end
+
+ftxt  = fcont.gsub(/$/, '\\\\\\\\')
+txt   = latexstart
+txt  += "\\begin{document}\n\n"
+txt  += ftxt
+txt  += "\n\\end{document}"
+ftex  = fbase + ".tex"
+File.write(ftex, txt)
+
+`pdflatex #{ftex}`
+File.delete(ftex)
+File.delete(fbase + ".aux")
+File.delete(fbase + ".log")
+
