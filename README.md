@@ -6,6 +6,7 @@
 [![Stay Amazing](https://img.shields.io/badge/Stay-Amazing-blue.svg)](https://isene.org)
 
 <img src="img/txt2pdf_logo.svg" align="left" width="150" height="150" alt="txt2pdf Logo">
+<br clear="left"/>
 
 Converts plain text (file or from STDIN) to pdf via pdflatex
 
