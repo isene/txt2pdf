@@ -1,3 +1,5 @@
+<img src="img/txt2pdf_logo.svg" align="left" width="150" height="150" alt="txt2pdf Logo">
+
 # txt2pdf
 
 [![Gem Version](https://badge.fury.io/rb/txt2pdf.svg)](https://badge.fury.io/rb/txt2pdf)
